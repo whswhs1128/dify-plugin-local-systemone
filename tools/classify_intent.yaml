@@ -1,0 +1,77 @@
+identity:
+  name: classify_intent
+  author: whswhs1128
+  label:
+    en_US: Classify Intent
+    zh_Hans: 意图识别
+description:
+  human:
+    en_US: Call local vLLM System One with per-node model, state and questions inputs.
+    zh_Hans: 使用本地 vLLM System One，按节点传入的 model、state、questions 进行决策。
+  llm: Invoke System One with required model ID, state text and a questions JSON string.
+parameters:
+- name: model
+  type: string
+  required: true
+  form: form
+  label:
+    en_US: Model ID
+    zh_Hans: 模型
+  human_description:
+    en_US: Exact model ID returned by vLLM GET /v1/models.
+    zh_Hans: vLLM /v1/models 返回的实际模型 ID。
+  placeholder:
+    en_US: Copy the exact ID from /v1/models
+    zh_Hans: 填写 /v1/models 返回的真实模型 ID
+  llm_description: Exact vLLM served model name to call.
+- name: state
+  type: string
+  required: true
+  form: form
+  label:
+    en_US: Decision State
+    zh_Hans: 用户问题 / state
+  human_description:
+    en_US: User query or decision state; can bind sys.query.
+    zh_Hans: 用户当前问题，建议绑定开始节点 sys.query。
+  placeholder:
+    en_US: Choose START / sys.query
+    zh_Hans: 点击变量选择器绑定 START / sys.query
+  llm_description: Full user query or state to evaluate.
+- name: questions
+  type: string
+  required: true
+  form: form
+  label:
+    en_US: Questions JSON
+    zh_Hans: 决策问题 / questions
+  human_description:
+    en_US: Valid JSON object for System One questions. Include route type choice and
+      criteria for intent routing.
+    zh_Hans: System One questions 对象的 JSON 字符串。三分类时填写包含 route/type/criteria 的 JSON。
+  placeholder:
+    en_US: Paste the questions JSON object
+    zh_Hans: 粘贴包含 route/type/criteria 的 JSON 对象
+  llm_description: A JSON string representing the System One questions object. Do
+    not include outer model or state.
+output_schema:
+  type: object
+  properties:
+    route:
+      type: string
+      description: answers.route.choice, or empty if no route choice was asked.
+    probability:
+      type: number
+      description: Relative probability for selected route if returned (0 otherwise).
+    probabilities:
+      type: object
+      description: Probabilities for the route question, if provided.
+    answers:
+      type: object
+      description: Complete System One answers, including arbitrary named questions.
+    diagnostics:
+      type: object
+      description: Optional diagnostic fields returned by the server.
+extra:
+  python:
+    source: tools/classify_intent.py

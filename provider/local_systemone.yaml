@@ -1,0 +1,39 @@
+identity:
+  author: whswhs1128
+  name: local_systemone
+  label:
+    en_US: Local System One
+    zh_Hans: 本地决策模型
+  description:
+    en_US: A self-hosted vLLM System One decision tool.
+    zh_Hans: 连接本地 vLLM 的 System One 决策工具。
+  icon: icon.svg
+  tags:
+  - productivity
+credentials_for_provider:
+  base_url:
+    type: text-input
+    required: true
+    label:
+      en_US: vLLM Base URL
+      zh_Hans: vLLM 服务地址
+    placeholder:
+      en_US: http://vllm-decision:8000
+      zh_Hans: http://vllm-decision:8000
+    help:
+      en_US: Trusted reachable service address, WITHOUT /v1/systemone.
+      zh_Hans: 填写插件运行环境可访问的可信地址，不包含 /v1/systemone。
+  api_key:
+    type: secret-input
+    required: false
+    label:
+      en_US: API Key (optional)
+      zh_Hans: API Key（可选）
+    help:
+      en_US: Optional Bearer token if vLLM has API key authentication.
+      zh_Hans: 只有在 vLLM 启用了 API Key 时才填写。
+tools:
+- tools/classify_intent.yaml
+extra:
+  python:
+    source: provider/local_systemone.py
