@@ -27,3 +27,6 @@ meta:
     language: python
     version: '3.12'
     entrypoint: main
+privacy: ./PRIVACY.md
+repo: https://github.com/whswhs1128/dify-plugin-local-systemone
+contact: whswhs1128@gmail.com
